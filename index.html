@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuex"></script>
+</head>
+<body>
+<div id="app">
+  <h1>{{welcome}}</h1>
+  <p>{{message}}</p>
+  <p>{{count}}</p>
+  <button @click="pressed">Increment counter</button>
+</div>
+<script>
+
+const store = new Vuex.Store({
+	state: {
+  	message: 'Hello From vuex',
+    count: 0
+  },
+  mutations: {
+  	increment(state, payload){
+    	state.count+=payload;
+    }
+  },
+  actions: {
+  	increment(state, payload){
+    	state.commit('increment',payload)
+    }
+  },
+  getters: {
+  	message(state){
+    	return state.message.toUpperCase();
+    },
+    counter(state){
+    	return state.count;
+    }
+  }
+});
+
+new Vue({
+	el: '#app',
+  data(){
+  	return {
+    	welcome:'hello world'
+    }
+  },
+  computed:{
+  	message(){
+    	return store.getters.message;
+    },
+    count(){
+    	return store.getters.counter;
+    }	
+  },
+  methods: {
+  	pressed(){
+    	store.dispatch('increment',20)
+    }
+  }
+});
+</script>
+</body>
+</html>
+
